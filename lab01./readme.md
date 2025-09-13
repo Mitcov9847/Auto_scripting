@@ -19,7 +19,9 @@
 mkdir -p lab1/source lab1/dest
 cd lab1
 ```
+
 В директорию source добавлены тестовые файлы:
+```
 bash
 Копировать код
 echo "Тестовый файл 1" > source/file1.txt
@@ -30,7 +32,6 @@ echo "Подфайл" > source/subdir/file3.txt
 Структура папки source после добавления файлов:
 ```
 bash
-Копировать код
 source/
 ├── file1.txt
 ├── file2.txt
@@ -41,7 +42,7 @@ source/
 
 Шаг 2. Создание скрипта backup.sh
 Файл backup.sh содержит следующий код:
-
+```
 bash
 
 set -euo pipefail
@@ -120,7 +121,7 @@ bash
 tar -tzf dest/source_backup_*.tar.gz
 ```
 Вывод:
-
+```
 bash
 Копировать код
 source/
@@ -134,7 +135,7 @@ source/subdir/file3.txt
 Проверка обработки ошибок:
 
 Без аргументов:
-
+```
 bash
 Копировать код
 ./backup.sh
