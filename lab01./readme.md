@@ -148,8 +148,6 @@ chmod +x backup.sh
 ```
 tar -tzf dest/source_backup_*.tar.gz
 ```
-Вывод:
-
 ```
 source/
 source/file1.txt
