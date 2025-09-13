@@ -32,7 +32,8 @@
 - **tar** (Tape Archive) — объединяет несколько файлов и каталогов в один архив.  
   Пример команды:
 
-  ```bash
+  ```
+  bash
   tar -czf backup.tar.gz /path/to/source
 ---
 
@@ -42,7 +43,8 @@
 
 Создана рабочая директория `lab1` с поддиректориями:
 
-```bash
+```
+bash
 mkdir -p lab1/source lab1/dest
 cd lab1
 ```
@@ -71,6 +73,7 @@ source/
 
 ### Шаг 2. Создание скрипта backup.sh
 Файл backup.sh содержит следующий код:
+
 ```
 bash
 
@@ -150,12 +153,14 @@ bash
 Бэкап успешно создан: ./dest/source_backup_2025-09-13_22-32-20.tar.gz
 -rw-r--r-- 1 mihai 197609 271 Sep 13 22:32 ./dest/source_backup_2025-09-13_22-32-20.tar.gz
 ```
+
 ```
 bash
 Копировать код
 tar -tzf dest/source_backup_*.tar.gz
 ```
 Вывод:
+
 ```
 bash
 Копировать код
