@@ -18,8 +18,8 @@
 ```bash
 mkdir -p lab1/source lab1/dest
 cd lab1
+```
 В директорию source добавлены тестовые файлы:
-
 bash
 Копировать код
 echo "Тестовый файл 1" > source/file1.txt
@@ -36,7 +36,7 @@ source/
 ├── file2.txt
 └── subdir/
     └── file3.txt
-    ```
+```
 <!-- Вставьте скриншот структуры папки здесь -->
 
 Шаг 2. Создание скрипта backup.sh
