@@ -170,3 +170,9 @@ source/subdir/file3.txt
 Полностью соответствует требованиям лабораторной работы.
 
 В целом, выполнение этой работы позволило не только закрепить навыки программирования на Shell, но и понять важность резервного копирования в повседневной работе с данными. Автоматизация рутинных процессов — ключ к надёжной и эффективной работе с информацией, и создание подобного скрипта является ярким примером практического применения теоретических знаний.
+
+## Библиография
+
+1. GNU Tar Manual. [https://www.gnu.org/software/tar/manual/tar.html](https://www.gnu.org/software/tar/manual/tar.html)  
+2. Bash Reference Manual. [https://www.gnu.org/software/bash/manual/](https://www.gnu.org/software/bash/manual/)
+3. Debian Documentation —  https://www.debian.org/doc/
