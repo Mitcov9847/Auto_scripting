@@ -1,4 +1,4 @@
-# Лабораторная работа: Создание резервной копии директории с помощью Shell скрипта
+<img width="887" height="232" alt="image" src="https://github.com/user-attachments/assets/fcd1df7a-7116-4b45-ba10-e32486777d89" /># Лабораторная работа: Создание резервной копии директории с помощью Shell скрипта
 
 ## Цель работы
 Автоматизировать создание резервной копии важной директории с использованием Shell скрипта `backup.sh`.  
@@ -40,7 +40,7 @@ source/
 ```
 <img width="553" height="305" alt="image" src="https://github.com/user-attachments/assets/cad31ad2-209b-4865-a227-e6f402d4a07f" />
 
-Шаг 2. Создание скрипта backup.sh
+### Шаг 2. Создание скрипта backup.sh
 Файл backup.sh содержит следующий код:
 ```
 bash
@@ -94,7 +94,10 @@ ls -lh "$ARCHIVE_PATH"
 
 trap - EXIT
 exit 0
-Шаг 3. Присвоение прав на выполнение
+```
+<img width="727" height="471" alt="image" src="https://github.com/user-attachments/assets/08c36066-6c92-4793-92a5-36399c1fed27" />
+
+### Шаг 3. Присвоение прав на выполнение
 
 ```
 bash
@@ -107,8 +110,9 @@ chmod +x backup.sh
 bash
 ./backup.sh ./source ./dest
 ```
+<img width="1201" height="207" alt="image" src="https://github.com/user-attachments/assets/9f4b1045-96fd-4956-bbba-80b6f7fc9251" />
 
-Вывод скрипта:
+### Вывод скрипта:
 
 ```
 bash
@@ -117,16 +121,12 @@ bash
 Бэкап успешно создан: ./dest/source_backup_2025-09-13_22-32-20.tar.gz
 -rw-r--r-- 1 mihai 197609 271 Sep 13 22:32 ./dest/source_backup_2025-09-13_22-32-20.tar.gz
 ```
-<!-- Вставьте скриншот вывода здесь -->
-Проверка содержимого архива:
-
 ```
 bash
 Копировать код
 tar -tzf dest/source_backup_*.tar.gz
 ```
 Вывод:
-
 ```
 bash
 Копировать код
@@ -136,33 +136,8 @@ source/file2.txt
 source/subdir/
 source/subdir/file3.txt
 ```
-<!-- Вставьте скриншот содержимого архива здесь -->
+<img width="887" height="232" alt="image" src="https://github.com/user-attachments/assets/041b00c8-3323-4161-a067-150912d28f8e" />
 
-Проверка обработки ошибок:
-
-Без аргументов:
-```
-bash
-Копировать код
-./backup.sh
-```
-
-Вывод:
-
-Ошибка: не указан путь к директории для бэкапа.
-Использование: ./backup.sh <source_dir> [destination_dir]
-Несуществующая исходная директория:
-
-```
-bash
-./backup.sh ./no_such_dir ./dest
-```
-Вывод:
-
-```
-bash
-Ошибка: директория './no_such_dir' не найдена.
-```
 Вывод
 Скрипт backup.sh успешно автоматизирует создание резервной копии директории:
 
