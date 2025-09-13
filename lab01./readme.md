@@ -27,6 +27,7 @@ echo "Тестовый файл 2" > source/file2.txt
 mkdir -p source/subdir
 echo "Подфайл" > source/subdir/file3.txt
 Структура папки source после добавления файлов:
+```
 
 bash
 Копировать код
@@ -35,6 +36,7 @@ source/
 ├── file2.txt
 └── subdir/
     └── file3.txt
+    ```
 <!-- Вставьте скриншот структуры папки здесь -->
 
 Шаг 2. Создание скрипта backup.sh
@@ -106,6 +108,7 @@ chmod +x backup.sh
 bash
 Копировать код
 ./backup.sh ./source ./dest
+```
 Вывод скрипта:
 
 bash
@@ -113,13 +116,14 @@ bash
 Создаю бэкап './source' -> './dest/source_backup_2025-09-13_22-32-20.tar.gz' ...
 Бэкап успешно создан: ./dest/source_backup_2025-09-13_22-32-20.tar.gz
 -rw-r--r-- 1 mihai 197609 271 Sep 13 22:32 ./dest/source_backup_2025-09-13_22-32-20.tar.gz
+```
 <!-- Вставьте скриншот вывода здесь -->
-
 Проверка содержимого архива:
 
 bash
 Копировать код
 tar -tzf dest/source_backup_*.tar.gz
+```
 Вывод:
 
 bash
@@ -129,6 +133,7 @@ source/file1.txt
 source/file2.txt
 source/subdir/
 source/subdir/file3.txt
+```
 <!-- Вставьте скриншот содержимого архива здесь -->
 
 Проверка обработки ошибок:
@@ -138,6 +143,8 @@ source/subdir/file3.txt
 bash
 Копировать код
 ./backup.sh
+```
+
 Вывод:
 
 makefile
@@ -149,11 +156,13 @@ makefile
 bash
 Копировать код
 ./backup.sh ./no_such_dir ./dest
+```
 Вывод:
 
 bash
 Копировать код
 Ошибка: директория './no_such_dir' не найдена.
+```
 Вывод
 Скрипт backup.sh успешно автоматизирует создание резервной копии директории:
 
