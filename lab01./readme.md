@@ -33,7 +33,6 @@
   Пример команды:
 
 ```
-bash
   tar -czf backup.tar.gz /path/to/source
 ```
 ---
@@ -45,7 +44,6 @@ bash
 Создана рабочая директория `lab1` с поддиректориями:
 
 ```
-bash
 mkdir -p lab1/source lab1/dest
 cd lab1
 ```
@@ -53,7 +51,6 @@ cd lab1
 В директорию source добавлены тестовые файлы:
 
 ```
-bash
 echo "Тестовый файл 1" > source/file1.txt
 echo "Тестовый файл 2" > source/file2.txt
 mkdir -p source/subdir
