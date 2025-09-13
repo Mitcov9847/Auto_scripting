@@ -59,13 +59,13 @@ echo "Подфайл" > source/subdir/file3.txt
 <img width="553" height="305" alt="image" src="https://github.com/user-attachments/assets/cad31ad2-209b-4865-a227-e6f402d4a07f" />
 
 Структура папки source после добавления файлов:
-
+```
 📁 source
 ├─ 📄 file1.txt
 ├─ 📄 file2.txt
 └─ 📁 subdir
    └─ 📄 file3.txt
-   
+   ```
 <img width="518" height="215" alt="image" src="https://github.com/user-attachments/assets/020087eb-2cef-43c8-b17e-f77225d6409c" />
 
 ### Шаг 2. Создание скрипта backup.sh
