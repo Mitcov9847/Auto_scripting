@@ -43,11 +43,6 @@ source/
 Файл backup.sh содержит следующий код:
 
 bash
-Копировать код
-#!/usr/bin/env bash
-# backup.sh - Создание tar.gz резервной копии директории
-# Usage: ./backup.sh <source_dir> [destination_dir]
-# default destination_dir = /backup
 
 set -euo pipefail
 
