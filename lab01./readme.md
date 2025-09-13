@@ -28,7 +28,7 @@ mkdir -p source/subdir
 echo "Подфайл" > source/subdir/file3.txt
 ```
 Структура папки source после добавления файлов:
-
+```
 bash
 Копировать код
 source/
