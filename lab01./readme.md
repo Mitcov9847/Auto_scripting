@@ -43,15 +43,16 @@
 
 Создана рабочая директория `lab1` с поддиректориями:
 
-```
 bash
+```
 mkdir -p lab1/source lab1/dest
 cd lab1
 ```
 
 В директорию source добавлены тестовые файлы:
-```
+
 bash
+```
 Копировать код
 echo "Тестовый файл 1" > source/file1.txt
 echo "Тестовый файл 2" > source/file2.txt
