@@ -38,7 +38,7 @@ source/
 └── subdir/
     └── file3.txt
 ```
-<!-- Вставьте скриншот структуры папки здесь -->
+<img width="553" height="305" alt="image" src="https://github.com/user-attachments/assets/cad31ad2-209b-4865-a227-e6f402d4a07f" />
 
 Шаг 2. Создание скрипта backup.sh
 Файл backup.sh содержит следующий код:
