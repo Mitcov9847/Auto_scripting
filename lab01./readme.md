@@ -32,8 +32,7 @@
 - **tar** (Tape Archive) — объединяет несколько файлов и каталогов в один архив.  
   Пример команды:
 
-  ```
-  bash
+```
   tar -czf backup.tar.gz /path/to/source
 ---
 
@@ -43,7 +42,6 @@
 
 Создана рабочая директория `lab1` с поддиректориями:
 
-bash
 ```
 mkdir -p lab1/source lab1/dest
 cd lab1
@@ -51,7 +49,6 @@ cd lab1
 
 В директорию source добавлены тестовые файлы:
 
-bash
 ```
 Копировать код
 echo "Тестовый файл 1" > source/file1.txt
@@ -63,7 +60,6 @@ echo "Подфайл" > source/subdir/file3.txt
 
 Структура папки source после добавления файлов:
 ```
-bash
 source/
 ├── file1.txt
 ├── file2.txt
@@ -76,8 +72,6 @@ source/
 Файл backup.sh содержит следующий код:
 
 ```
-bash
-
 set -euo pipefail
 
 usage() {
@@ -133,14 +127,12 @@ exit 0
 ### Шаг 3. Присвоение прав на выполнение
 
 ```
-bash
 chmod +x backup.sh
 ```
 Шаг 4. Проверка работы скрипта
 Создание бэкапа в папку dest:
 
 ```
-bash
 ./backup.sh ./source ./dest
 ```
 <img width="1201" height="207" alt="image" src="https://github.com/user-attachments/assets/9f4b1045-96fd-4956-bbba-80b6f7fc9251" />
@@ -148,7 +140,6 @@ bash
 ### Вывод скрипта:
 
 ```
-bash
 Копировать код
 Создаю бэкап './source' -> './dest/source_backup_2025-09-13_22-32-20.tar.gz' ...
 Бэкап успешно создан: ./dest/source_backup_2025-09-13_22-32-20.tar.gz
@@ -156,14 +147,12 @@ bash
 ```
 
 ```
-bash
 Копировать код
 tar -tzf dest/source_backup_*.tar.gz
 ```
 Вывод:
 
 ```
-bash
 Копировать код
 source/
 source/file1.txt
