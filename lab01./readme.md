@@ -35,6 +35,7 @@
 ```
 bash
   tar -czf backup.tar.gz /path/to/source
+```
 ---
 
 ## Ход выполнения работы
