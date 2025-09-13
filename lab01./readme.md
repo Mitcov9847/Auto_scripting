@@ -60,11 +60,11 @@ echo "Подфайл" > source/subdir/file3.txt
 
 Структура папки source после добавления файлов:
 ```
-source/
-├── file1.txt
-├── file2.txt
-└── subdir/
-    └── file3.txt
+📁 source
+├─ 📄 file1.txt
+├─ 📄 file2.txt
+└─ 📁 subdir
+   └─ 📄 file3.txt
 ```
 <img width="518" height="215" alt="image" src="https://github.com/user-attachments/assets/020087eb-2cef-43c8-b17e-f77225d6409c" />
 
