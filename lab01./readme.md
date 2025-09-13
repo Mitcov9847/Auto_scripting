@@ -26,8 +26,8 @@ echo "Тестовый файл 1" > source/file1.txt
 echo "Тестовый файл 2" > source/file2.txt
 mkdir -p source/subdir
 echo "Подфайл" > source/subdir/file3.txt
-Структура папки source после добавления файлов:
 ```
+Структура папки source после добавления файлов:
 
 bash
 Копировать код
