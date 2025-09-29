@@ -51,6 +51,18 @@ Invoke-WebRequest -Uri "http://localhost:8080/?currencies" -Method POST -Body "k
 
 ## Работа с Python
 
+Запуск сервиса через Docker Compose
+Перед написанием Python-скрипта необходимо создать рабочий файл настроек из шаблона, чтобы Docker знал, какой API-ключ использовать, а так же поднять локальный сервис, предоставляющий API.
+
+Для этого в каталоге lab02 выполняются команды:
+
+cp sample.env .env
+и далее:
+
+docker compose up -d
+
+<img width="949" height="91" alt="image" src="https://github.com/user-attachments/assets/8f950978-6e14-44df-aaa9-7a3c33e75474" />
+
 1. Создание виртуального окружения:
 
 ```powershell
