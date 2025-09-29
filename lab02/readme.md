@@ -46,6 +46,8 @@ docker-compose up -d --build
 
 ```powershell
 Invoke-WebRequest -Uri "http://localhost:8080/?currencies" -Method POST -Body "key=EXAMPLE_API_KEY"
+<img width="987" height="601" alt="image" src="https://github.com/user-attachments/assets/8674c981-575d-47ae-94fb-5a603af47a73" />
+
 ```
 
 **Пример ответа:**
