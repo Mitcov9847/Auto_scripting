@@ -113,8 +113,6 @@ foreach($d in $dates){
 
 <img width="593" height="241" alt="image" src="https://github.com/user-attachments/assets/a4115435-b352-4777-ab49-1f16c7de0515" />
 
-![Uploading image.png…]()
-
 ## Вывод списка доступных валют через Python-скрипт
 
 Скрипт поддерживает отдельный режим для получения списка всех доступных валют, что удобно для проверки перед запросом курсов.
