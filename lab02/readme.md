@@ -84,6 +84,8 @@ python .\currency_exchange_rate.py USD MDL 2025-01-01 --url http://localhost:808
 ```
 <img width="977" height="98" alt="image" src="https://github.com/user-attachments/assets/18fadfc6-52f1-4499-a21a-5b0be2f11a06" />
 
+<img width="344" height="163" alt="image" src="https://github.com/user-attachments/assets/b792835e-b210-4a64-9e36-81128904fe6b" />
+
 ## Тестирование на диапазоне дат
 
 ```powershell
@@ -106,7 +108,11 @@ $dates = @('2025-01-01','2025-03-01','2025-05-01','2025-07-01','2025-09-01')
 foreach($d in $dates){
     python .\currency_exchange_rate.py USD MDL $d --url http://localhost:8080 --api-key EXAMPLE_API_KEY
 }
+
+<img width="815" height="186" alt="image" src="https://github.com/user-attachments/assets/3a18c74c-48dc-4f97-9a64-494fd986b934" />
 <img width="593" height="241" alt="image" src="https://github.com/user-attachments/assets/a4115435-b352-4777-ab49-1f16c7de0515" />
+
+![Uploading image.png…]()
 
 ## Вывод списка доступных валют через Python-скрипт
 
