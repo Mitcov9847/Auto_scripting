@@ -49,12 +49,6 @@ Invoke-WebRequest -Uri "http://localhost:8080/?currencies" -Method POST -Body "k
 ```
 <img width="987" height="601" alt="image" src="https://github.com/user-attachments/assets/8674c981-575d-47ae-94fb-5a603af47a73" />
 
-**Пример ответа:**
-
-```json
-{"error":"","data":["MDL","USD","EUR","RON","RUS","UAH"]}
-```
-
 ## Работа с Python
 
 1. Создание виртуального окружения:
@@ -69,17 +63,14 @@ python -m venv .venv
 ```powershell
 pip install -r requirements.txt
 ```
+<img width="970" height="566" alt="image" src="https://github.com/user-attachments/assets/a71fc343-565c-4179-b462-d4eda1322284" />
 
 3. Запуск скрипта на одной дате:
 
 ```powershell
 python .\currency_exchange_rate.py USD MDL 2025-01-01 --url http://localhost:8080 --api-key EXAMPLE_API_KEY
 ```
-
-**Результат:**
-- Файл `data/rate_USD_MDL_2025-01-01.json` создан
-- В консоли отображается курс валюты
-- Ошибок нет
+<img width="977" height="98" alt="image" src="https://github.com/user-attachments/assets/18fadfc6-52f1-4499-a21a-5b0be2f11a06" />
 
 ## Тестирование на диапазоне дат
 
@@ -90,17 +81,26 @@ foreach($d in $dates){
 }
 ```
 
-**Результат:**
-- 5 JSON-файлов с курсами валют на соответствующие даты в папке `data`
-- Ошибок нет
+<img width="954" height="279" alt="image" src="https://github.com/user-attachments/assets/ae02a7e7-3248-42a1-93de-bcafd98e95e1" />
 
-## Вывод списка валют через скрипт
 
-```powershell
-python .\currency_exchange_rate.py USD MDL 2025-01-01 --url http://localhost:8080 --api-key EXAMPLE_API_KEY --list-currencies
-```
+##  Запуск скрипта для диапазона дат
 
-- Скрипт выводит поддерживаемые валюты
+Для тестирования работы скрипта на нескольких датах с равными интервалами был выбран период с 2025-01-01 по 2025-09-01 с шагом в два месяца.
+
+Использовался цикл в PowerShell:
+
+$dates = @('2025-01-01','2025-03-01','2025-05-01','2025-07-01','2025-09-01')
+foreach($d in $dates){
+    python .\currency_exchange_rate.py USD MDL $d --url http://localhost:8080 --api-key EXAMPLE_API_KEY
+}
+<img width="593" height="241" alt="image" src="https://github.com/user-attachments/assets/a4115435-b352-4777-ab49-1f16c7de0515" />
+
+## Вывод списка доступных валют через Python-скрипт
+
+Скрипт поддерживает отдельный режим для получения списка всех доступных валют, что удобно для проверки перед запросом курсов.
+
+["MDL","USD","EUR","RON","RUS","UAH"]
 
 ## Выводы
 
@@ -108,3 +108,10 @@ python .\currency_exchange_rate.py USD MDL 2025-01-01 --url http://localhost:808
 - Поддерживает вывод списка валют и корректно работает на нескольких датах
 - Цель лабораторной работы достигнута: освоены навыки работы с API, аргументами командной строки, логированием и сохранением данных
 
+## Библиография
+
+1. Python Software Foundation. *Python 3 Documentation*. [https://docs.python.org/3/](https://docs.python.org/3/)  
+2. Python Software Foundation. *pip Documentation*. [https://pip.pypa.io/en/stable/](https://pip.pypa.io/en/stable/)  
+3. Docker Inc. *Docker Documentation*. [https://docs.docker.com/](https://docs.docker.com/)  
+4. Docker Inc. *Docker Compose Documentation*. [https://docs.docker.com/compose/](https://docs.docker.com/compose/)  
+5. Requests Library. *Python HTTP for Humans*. [https://docs.python-requests.org/](https://docs.python-requests.
