@@ -65,3 +65,4 @@ curl "http://localhost:8080/?from=USD&to=EUR&date=2023-10-01" -X POST -d "key=EX
 ```json
 {"error":"","data":{"from":"USD","to":"EUR","rate":1.1753024588927439,"date":"2023-10-01"}}
 ```
+
