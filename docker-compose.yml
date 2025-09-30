@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  cronapp:
+    build: .
+    container_name: cron_app
+    volumes:
+      - ./currency_exchange_rate.py:/app/currency_exchange_rate.py
+      - ./cronjob:/etc/cron.d/currency_cron
+      - ./entrypoint.sh:/entrypoint.sh
+    restart: unless-stopped
