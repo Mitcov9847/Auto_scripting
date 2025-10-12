@@ -17,8 +17,15 @@
 git checkout -b lab03
 mkdir lab03
 cp -r lab02/* lab03/
-Скриншот структуры проекта:
 
+Структура проекта:
+- **currency_exchange_rate.py** – скрипт для получения курса валют (MDL → EUR / USD).  
+- **cronjob** – задания cron для автоматического запуска скрипта по расписанию.  
+- **Dockerfile** – билд Docker-образа с установкой Python, cron и копированием скриптов.  
+- **entrypoint.sh** – запускает cron при старте контейнера и создаёт лог файл.  
+- **docker-compose.yml** – конфигурация для сборки и запуска контейнера с cron через Docker Compose.  
+- **readme.md** – инструкция по сборке, запуску и проверке логов проекта.  
+- **logs/** – директория для хранения логов cron (если используется).
 ---
 ## Задание
 В каталоге lab03 создать файл cronjob с задачами cron:
@@ -212,5 +219,6 @@ Docker Documentation
 Docker Compose Documentation
 
 Cron HowTo — Ubuntu Wiki
+
 
 
