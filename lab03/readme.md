@@ -44,7 +44,7 @@ cp -r lab02/* lab03/
 
 <img width="567" height="603" alt="image" src="https://github.com/user-attachments/assets/2a7910be-51d8-4290-90c0-b5b94a2fe878" />
 
-# Экспорт переменных окружения для cron
+## Экспорт переменных окружения для cron
 
 ```
 env > /etc/environment
@@ -58,11 +58,11 @@ run_cron
 Запускает cron как основной процесс контейнера.
 Экспортирует переменные окружения для корректной работы скрипта.
 
-# Создание Dockerfile
+## Создание Dockerfile
 
 <img width="744" height="385" alt="image" src="https://github.com/user-attachments/assets/7c012dba-6920-4051-846a-585c941bb65f" />
 
-# Установка зависимостей для cron
+## Установка зависимостей для cron
 ```
 RUN apt-get update && \
     apt-get install -y cron && \
@@ -70,14 +70,14 @@ RUN apt-get update && \
 
 WORKDIR /app
 ```
-# Копирование скрипта и файлов cron
+## Копирование скрипта и файлов cron
 ```
 COPY currency_exchange_rate.py /app/
 COPY cronjob /etc/cron.d/cronjob
 COPY entrypoint.sh /entrypoint.sh
 ```
 
-# Создание docker-compose.yml
+## Создание docker-compose.yml
 
 <img width="417" height="292" alt="image" src="https://github.com/user-attachments/assets/7b0d28d9-32f4-4b6d-9b8a-bc3dc004f187" />
 
@@ -181,6 +181,7 @@ Python Documentation
 Docker Documentation
 Docker Compose Documentation
 Cron HowTo — Ubuntu Wiki
+
 
 
 
