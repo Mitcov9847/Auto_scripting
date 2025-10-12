@@ -43,24 +43,7 @@ cp -r lab02/* lab03/
 Для удобной работы с cron рекомендуется использовать скрипт entrypoint.sh, который настраивает и запускает cron при старте контейнера:
 
 ```
-#!/bin/sh
-
-create_log_file() {
-    echo "Creating log file..."
-    touch /var/log/cron.log
-    chmod 666 /var/log/cron.log
-    echo "Log file created at /var/log/cron.log"
-}
-
-monitor_logs() {
-    echo "=== Monitoring cron logs ==="
-    tail -f /var/log/cron.log
-}
-
-run_cron() {
-    echo "=== Starting cron daemon ==="
-    exec cron -f
-}
+<img width="567" height="603" alt="image" src="https://github.com/user-attachments/assets/2a7910be-51d8-4290-90c0-b5b94a2fe878" />
 ```
 # Экспорт переменных окружения для cron
 ```
@@ -214,6 +197,7 @@ Docker Documentation
 Docker Compose Documentation
 
 Cron HowTo — Ubuntu Wiki
+
 
 
 
