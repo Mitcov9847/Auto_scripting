@@ -4,8 +4,6 @@
 
 Научиться настраивать планировщик задач **cron** внутри контейнера Docker для автоматического запуска Python-скрипта `currency_exchange_rate.py`.
 
----
-
 ## Подготовка
 
 Работа основана на лабораторной работе №2.  
@@ -214,4 +212,5 @@ Docker Documentation
 Docker Compose Documentation
 
 Cron HowTo — Ubuntu Wiki
+
 
