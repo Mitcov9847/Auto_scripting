@@ -1,0 +1,8 @@
+# /etc/cron.d/cronjob - runs currency_exchange_rate.py
+# format: min hour day month weekday user command
+
+# Daily at 06:00 - MDL -> EUR for yesterday
+0 6 * * * root /usr/local/bin/python3 /app/currency_exchange_rate.py MDL EUR $(date -d "yesterday" +\%Y-\%m-\%d) >> /var/log/cron.log 2>&1
+
+# Weekly on Friday at 17:00 - MDL -> USD for previous week
+0 17 * * 5 root /usr/local/bin/python3 /app/currency_exchange_rate.py MDL USD $(date -d "last week" +\%Y-\%m-\%d) >> /var/log/cron.log 2>&1

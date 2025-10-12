@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  cronjob:
+    build: .
+    container_name: lab03_cron
+    volumes:
+      - ./logs:/var/log
+    environment:
+      - PYTHONUNBUFFERED=1
