@@ -2,170 +2,214 @@
 
 ## Цель работы
 
-Освоить настройку планировщика задач **cron** для автоматического запуска Python-скрипта внутри контейнера Docker.
+Научиться настраивать планировщик задач **cron** внутри контейнера Docker для автоматического запуска Python-скрипта `currency_exchange_rate.py`.
 
 ---
 
-## Структура проекта
+## Подготовка
 
-```text
-lab03/
-├─ logs/                         # Логи cron и ошибок
-├─ cronjob                        # Расписание задач cron
-├─ currency_exchange_rate.py      # Основной скрипт
-├─ Dockerfile                     # Сборка контейнера (Python + cron)
-├─ entrypoint.sh                  # Запуск cron при старте контейнера
-├─ docker-compose.yml             # Управление контейнером через Docker Compose
-├─ readme.md                      # Отчет по лабораторной работе
----
-Объяснение:
----
-logs/ — хранение логов cron.
+Работа основана на лабораторной работе №2.  
 
-cronjob — задания cron для автоматического вызова скрипта.
+**Действия:**
 
-currency_exchange_rate.py — скрипт для получения курсов валют.
+1. Создать ветку `lab03` в проекте.  
+2. Создать директорию `lab03` и скопировать туда файлы из `lab02`.
 
-Dockerfile — описание сборки образа с Python и cron.
+```bash
+git checkout -b lab03
+mkdir lab03
+cp -r lab02/* lab03/
+Скриншот структуры проекта:
 
-entrypoint.sh — настраивает cron и вывод логов.
+Задание
+В каталоге lab03 создать файл cronjob с задачами cron:
 
-docker-compose.yml — сборка и запуск контейнера.
----
-Содержимое файлов
-1️⃣ cronjob
----
+```
 # Ежедневно в 06:00 — курс MDL→EUR за вчера
 0 6 * * * python3 /app/currency_exchange_rate.py MDL EUR yesterday >> /var/log/cron.log 2>&1
----
 
-# Еженедельно по пятницам в 17:00 — курс MDL→USD за прошлую неделю
+# Еженедельно в пятницу 17:00 — курс MDL→USD за прошлую неделю
 0 17 * * 5 python3 /app/currency_exchange_rate.py MDL USD last_week >> /var/log/cron.log 2>&1
-2️⃣ entrypoint.sh
+Пояснение:
 
----
+0 6 * * * — ежедневное выполнение в 06:00.
+
+0 17 * * 5 — еженедельное выполнение по пятницам в 17:00.
+
+>> /var/log/cron.log 2>&1 — вывод всех сообщений и ошибок в файл логов.
+
+Настройка entrypoint.sh
+Для удобной работы с cron рекомендуется использовать скрипт entrypoint.sh, который настраивает и запускает cron при старте контейнера:
+
+```
 #!/bin/sh
 
-echo "Creating log file..."
-touch /var/log/cron.log
-chmod 666 /var/log/cron.log
----
-# Запуск cron и вывод логов
-tail -f /var/log/cron.log &
-exec cron -f
-3️⃣ Dockerfile
-dockerfile
-Копировать код
-FROM python:3.11-slim
+create_log_file() {
+    echo "Creating log file..."
+    touch /var/log/cron.log
+    chmod 666 /var/log/cron.log
+    echo "Log file created at /var/log/cron.log"
+}
 
+monitor_logs() {
+    echo "=== Monitoring cron logs ==="
+    tail -f /var/log/cron.log
+}
+
+run_cron() {
+    echo "=== Starting cron daemon ==="
+    exec cron -f
+}
+```
+# Экспорт переменных окружения для cron
+```
+env > /etc/environment
+create_log_file
+monitor_logs &
+run_cron
+```
+Пояснение:
+
+Создает лог-файл /var/log/cron.log.
+
+Мониторит лог в реальном времени (tail -f).
+
+Запускает cron как основной процесс контейнера.
+
+Экспортирует переменные окружения для корректной работы скрипта.
+
+Создание Dockerfile
+```
+FROM python:3.11-slim
+```
+# Установка зависимостей для cron
+```
 RUN apt-get update && \
     apt-get install -y cron && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-
+```
+# Копирование скрипта и файлов cron
+```
 COPY currency_exchange_rate.py /app/
 COPY cronjob /etc/cron.d/cronjob
 COPY entrypoint.sh /entrypoint.sh
-
+```
+# Назначение прав
+```
 RUN chmod +x /entrypoint.sh \
-    && chmod 0644 /etc/cron.d/cronjob \
-    && ln -s /etc/cron.d/cron /etc/cron.d/cron
+    && chmod 0644 /etc/cron.d/cronjob
 
 ENTRYPOINT ["/entrypoint.sh"]
-4️⃣ docker-compose.yml
-yaml
-Копировать код
+```
+Пояснение:
+
+Базовый образ — Python 3.11 slim.
+
+Установка cron.
+
+Копирование всех файлов проекта.
+
+Назначение прав на скрипт и cron-задания.
+
+ENTRYPOINT запускает cron автоматически при старте контейнера.
+
+Создание docker-compose.yml
+```
+version: "3.9"
+
 services:
   lab03_cron:
     build: .
     container_name: lab03_cron
     restart: always
-Ход выполнения работы
-Шаг 1. Сборка Docker-образа
-powershell
-Копировать код
-docker compose build
-Объяснение: Сборка контейнера с Python и cron, копирование файлов и настройка прав.
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env
+```
+Пояснение:
 
+build: . — сборка контейнера из текущей директории.
+
+container_name: lab03_cron — имя контейнера.
+
+restart: always — автоматический перезапуск.
+
+Монтирование папки data для хранения JSON с курсами валют.
+
+Использование .env для переменных окружения (API_KEY, API_URL и др.).
+
+## Ход выполнения
+1. Сборка Docker-образа
+```
+docker compose build
+```
 Скриншот сборки:
 
-Шаг 2. Запуск контейнера
-powershell
-Копировать код
+2. Запуск контейнера
+```
 docker compose up -d --remove-orphans
-Объяснение: Запуск контейнера в фоне и удаление старых "осиротевших" контейнеров.
+```
+Проверка состояния контейнера:
 
-Проверка работы контейнера:
-
-powershell
-Копировать код
+```
 docker ps
+```
 Скриншот:
 
-Шаг 3. Проверка работы скрипта вручную
-powershell
-Копировать код
-docker exec -it lab03_cron python3 /app/currency_exchange_rate.py MDL EUR 2025-10-11
-Объяснение: Проверка корректного запуска скрипта внутри контейнера.
-
-Пример вывода:
-
-yaml
-Копировать код
-[2025-10-12 07:42:50.316087] currency_exchange_rate.py called with args: MDL EUR 2025-10-11
-Скриншот:
-
-Шаг 4. Просмотр логов cron
-powershell
-Копировать код
-docker exec -it lab03_cron tail -f /var/log/cron.log
-Объяснение: Отслеживание выполнения заданий cron в реальном времени.
-
-Скриншот:
-
-Шаг 5. Проверка cron-заданий
-powershell
-Копировать код
+3. Проверка cron-заданий
+```
 docker exec -it lab03_cron sh -lc "crontab -l"
-Объяснение: Проверка, что cron загрузил задания из cronjob.
-
+```
 Скриншот:
 
-Шаг 6. Проверка работы скрипта и сохранения результатов
-powershell
-Копировать код
+4. Проверка логов cron
+```
+docker exec -it lab03_cron tail -f /var/log/cron.log
+```
+Скриншот:
+
+5. Проверка работы скрипта вручную
+```
 docker exec -it lab03_cron python3 /app/currency_exchange_rate.py MDL EUR yesterday
-docker exec -it lab03_cron cat /app/data/rate_MDL_EUR_<date>.json
-Объяснение: Скрипт сохраняет результаты в JSON, которые можно использовать для анализа.
+```
+Скриншот успешного запуска:
 
-Пример вывода JSON:
+Проверка файла с результатами:
 
-json
-Копировать код
+```
+docker exec -it lab03_cron cat /app/data/rate_MDL_EUR_2025-10-11.json
+```
+Пример содержимого JSON:
+
+```
 {
   "from": "MDL",
   "to": "EUR",
   "rate": 0.05412,
   "date": "2025-10-11"
 }
-Скриншот:
+```
+Скриншот JSON:
 
-Выводы
-Контейнер с Python и cron создан и работает.
+## Выводы
+Контейнер с Python и cron успешно создан и запущен.
 
-Скрипт currency_exchange_rate.py выполняется как вручную, так и по расписанию cron.
+Скрипт currency_exchange_rate.py выполняется автоматически по расписанию cron.
 
-Логи cron и JSON-файлы подтверждают успешное выполнение заданий.
+Ручной запуск скрипта подтверждает корректную работу и сохранение результатов.
 
-Все требования лабораторной работы №3 выполнены ✅
+Логи cron подтверждают выполнение заданий и запись ошибок.
 
-Библиография
-Python Documentation — официальный справочник Python.
+Все цели лабораторной работы №3 достигнуты ✅
 
-Docker Documentation — официальная документация Docker.
+## Библиография
+Python Documentation
 
-Docker Compose Documentation — руководство по Docker Compose.
+Docker Documentation
 
-Cron HowTo — Ubuntu Wiki — официальное руководство по cron.
+Docker Compose Documentation
 
+Cron HowTo — Ubuntu Wiki
