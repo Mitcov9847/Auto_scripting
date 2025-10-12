@@ -30,14 +30,14 @@ cp -r lab02/* lab03/
 ---
 ## Задание
 
+```
 В каталоге lab03 создать файл cronjob с задачами cron:
 Ежедневно в 06:00 — курс MDL→EUR за вчера
 0 6 * * * python3 /app/currency_exchange_rate.py MDL EUR yesterday >> /var/log/cron.log 2>&1
 
 Еженедельно в пятницу 17:00 — курс MDL→USD за прошлую неделю
 0 17 * * 5 python3 /app/currency_exchange_rate.py MDL USD last_week >> /var/log/cron.log 2>&1
-
----
+```
 
 ## Настройка entrypoint.sh
 Для удобной работы с cron рекомендуется использовать скрипт entrypoint.sh, который настраивает и запускает cron при старте контейнера:
@@ -163,6 +163,7 @@ Docker Documentation
 Docker Compose Documentation
 
 Cron HowTo — Ubuntu Wiki
+
 
 
 
