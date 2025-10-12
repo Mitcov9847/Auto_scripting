@@ -98,6 +98,7 @@ PS C:\Users\mihai\Desktop\AS\lab03> docker compose build
 
 Комментарий:
 Образ lab03-cronjob успешно собран. Все зависимости, включая cron, установлены.
+<img width="679" height="136" alt="image" src="https://github.com/user-attachments/assets/0309a4b1-07d4-48f5-8ec4-ea05e49596aa" />
 
 ## 4.2. Запуск контейнера
 ```
@@ -180,6 +181,7 @@ Python Documentation
 Docker Documentation
 Docker Compose Documentation
 Cron HowTo — Ubuntu Wiki
+
 
 
 
