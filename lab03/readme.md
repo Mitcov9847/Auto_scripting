@@ -17,8 +17,9 @@ lab03/
 ├─ entrypoint.sh                  # Запуск cron при старте контейнера
 ├─ docker-compose.yml             # Управление контейнером через Docker Compose
 ├─ readme.md                      # Отчет по лабораторной работе
+---
 Объяснение:
-
+---
 logs/ — хранение логов cron.
 
 cronjob — задания cron для автоматического вызова скрипта.
@@ -30,25 +31,25 @@ Dockerfile — описание сборки образа с Python и cron.
 entrypoint.sh — настраивает cron и вывод логов.
 
 docker-compose.yml — сборка и запуск контейнера.
-
+---
 Содержимое файлов
 1️⃣ cronjob
-cron
-Копировать код
+---
 # Ежедневно в 06:00 — курс MDL→EUR за вчера
 0 6 * * * python3 /app/currency_exchange_rate.py MDL EUR yesterday >> /var/log/cron.log 2>&1
+---
 
 # Еженедельно по пятницам в 17:00 — курс MDL→USD за прошлую неделю
 0 17 * * 5 python3 /app/currency_exchange_rate.py MDL USD last_week >> /var/log/cron.log 2>&1
 2️⃣ entrypoint.sh
-sh
-Копировать код
+
+---
 #!/bin/sh
 
 echo "Creating log file..."
 touch /var/log/cron.log
 chmod 666 /var/log/cron.log
-
+---
 # Запуск cron и вывод логов
 tail -f /var/log/cron.log &
 exec cron -f
@@ -167,3 +168,4 @@ Docker Documentation — официальная документация Docker.
 Docker Compose Documentation — руководство по Docker Compose.
 
 Cron HowTo — Ubuntu Wiki — официальное руководство по cron.
+
