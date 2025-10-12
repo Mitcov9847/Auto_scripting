@@ -42,10 +42,10 @@ cp -r lab02/* lab03/
 ## Настройка entrypoint.sh
 Для удобной работы с cron рекомендуется использовать скрипт entrypoint.sh, который настраивает и запускает cron при старте контейнера:
 
-```
 <img width="567" height="603" alt="image" src="https://github.com/user-attachments/assets/2a7910be-51d8-4290-90c0-b5b94a2fe878" />
-```
+
 # Экспорт переменных окружения для cron
+
 ```
 env > /etc/environment
 create_log_file
@@ -53,19 +53,15 @@ monitor_logs &
 run_cron
 ```
 Пояснение:
-
 Создает лог-файл /var/log/cron.log.
-
 Мониторит лог в реальном времени (tail -f).
-
 Запускает cron как основной процесс контейнера.
-
 Экспортирует переменные окружения для корректной работы скрипта.
 
-Создание Dockerfile
-```
-FROM python:3.11-slim
-```
+# Создание Dockerfile
+
+<img width="744" height="385" alt="image" src="https://github.com/user-attachments/assets/7c012dba-6920-4051-846a-585c941bb65f" />
+
 # Установка зависимостей для cron
 ```
 RUN apt-get update && \
@@ -80,50 +76,20 @@ COPY currency_exchange_rate.py /app/
 COPY cronjob /etc/cron.d/cronjob
 COPY entrypoint.sh /entrypoint.sh
 ```
-# Назначение прав
-```
-RUN chmod +x /entrypoint.sh \
-    && chmod 0644 /etc/cron.d/cronjob
 
-ENTRYPOINT ["/entrypoint.sh"]
-```
+
+# Создание docker-compose.yml
+
+<img width="417" height="292" alt="image" src="https://github.com/user-attachments/assets/7b0d28d9-32f4-4b6d-9b8a-bc3dc004f187" />
+
 Пояснение:
-
-Базовый образ — Python 3.11 slim.
-
-Установка cron.
-
-Копирование всех файлов проекта.
-
-Назначение прав на скрипт и cron-задания.
-
-ENTRYPOINT запускает cron автоматически при старте контейнера.
-
-Создание docker-compose.yml
 ```
-version: "3.9"
-
-services:
-  lab03_cron:
-    build: .
-    container_name: lab03_cron
-    restart: always
-    volumes:
-      - ./data:/app/data
-    env_file:
-      - .env
-```
-Пояснение:
-
 build: . — сборка контейнера из текущей директории.
-
 container_name: lab03_cron — имя контейнера.
-
 restart: always — автоматический перезапуск.
-
 Монтирование папки data для хранения JSON с курсами валют.
-
 Использование .env для переменных окружения (API_KEY, API_URL и др.).
+```
 
 ## Ход выполнения
 1. Сборка Docker-образа
@@ -197,6 +163,7 @@ Docker Documentation
 Docker Compose Documentation
 
 Cron HowTo — Ubuntu Wiki
+
 
 
 
