@@ -83,66 +83,69 @@ COPY entrypoint.sh /entrypoint.sh
 <img width="417" height="292" alt="image" src="https://github.com/user-attachments/assets/7b0d28d9-32f4-4b6d-9b8a-bc3dc004f187" />
 
 Пояснение:
-```
 build: . — сборка контейнера из текущей директории.
 container_name: lab03_cron — имя контейнера.
 restart: always — автоматический перезапуск.
 Монтирование папки data для хранения JSON с курсами валют.
 Использование .env для переменных окружения (API_KEY, API_URL и др.).
-```
 
-## Ход выполнения
-1. Сборка Docker-образа
-```
-docker compose build
-```
-Скриншот сборки:
+# 4. Результаты запуска
+## 4.1. Сборка Docker-образа
 
-2. Запуск контейнера
-```
-docker compose up -d --remove-orphans
-```
-Проверка состояния контейнера:
+PS C:\Users\mihai\Desktop\AS\lab03> docker compose build
 
-```
-docker ps
-```
-Скриншот:
+Вывод:
+<img width="816" height="305" alt="image" src="https://github.com/user-attachments/assets/e28b919c-0664-41f7-b057-3e228c1e3f62" />
 
-3. Проверка cron-заданий
-```
-docker exec -it lab03_cron sh -lc "crontab -l"
-```
-Скриншот:
+Комментарий:
+Образ lab03-cronjob успешно собран. Все зависимости, включая cron, установлены.
 
-4. Проверка логов cron
-```
-docker exec -it lab03_cron tail -f /var/log/cron.log
-```
-Скриншот:
+## 4.2. Запуск контейнера
+PS C:\Users\mihai\Desktop\AS\lab03> docker compose up -d
 
-5. Проверка работы скрипта вручную
-```
-docker exec -it lab03_cron python3 /app/currency_exchange_rate.py MDL EUR yesterday
-```
-Скриншот успешного запуска:
+Вывод:
+<img width="817" height="162" alt="image" src="https://github.com/user-attachments/assets/930719c4-932d-4b36-87f2-0cc6f0c278d1" />
 
-Проверка файла с результатами:
+Проверка контейнеров:
+<img width="815" height="157" alt="image" src="https://github.com/user-attachments/assets/f17ad701-8c9b-44dc-a9ae-102ba5c67d00" />
 
-```
-docker exec -it lab03_cron cat /app/data/rate_MDL_EUR_2025-10-11.json
-```
-Пример содержимого JSON:
+## 4.3. Проверка логов Cron
 
-```
-{
-  "from": "MDL",
-  "to": "EUR",
-  "rate": 0.05412,
-  "date": "2025-10-11"
-}
-```
-Скриншот JSON:
+<img width="811" height="102" alt="image" src="https://github.com/user-attachments/assets/1b042162-d450-4efd-9f73-4b13f7d2aacd" />
+
+Комментарий:
+Каждую минуту cron запускает скрипт currency_exchange_rate.py, а результат записывается в cron.log.
+
+## 4.4. Ручной запуск скрипта внутри контейнера
+
+PS C:\Users\mihai\Desktop\AS\lab03> docker exec -it lab03_cron python3 /app/currency_exchange_rate.py MDL EUR 2025-10-11
+
+Вывод:
+
+[2025-10-12T07:42:50.316087] currency_exchange_rate.py called with args: MDL EUR 2025-10-11
+
+Комментарий:
+Скрипт работает корректно, вывод соответствует переданным аргументам.
+
+## 4.5. Проверка директории проекта и логов
+PS C:\Users\mihai\Desktop\AS\lab03> dir
+
+
+Вывод:
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        12.10.2025     10:21                logs
+-a----        12.10.2025     10:08            497 cronjob
+-a----        12.10.2025     10:08            365 currency_exchange_rate.py
+-a----        12.10.2025     10:10            170 docker-compose.yml
+-a----        12.10.2025     10:09            807 Dockerfile
+-a----        12.10.2025     10:20            437 entrypoint.sh
+-a----        12.10.2025     10:10            519 readme.md
+
+
+Комментарий:
+Все файлы на месте, папка logs существует для хранения логов cron.
 
 ## Выводы
 Контейнер с Python и cron успешно создан и запущен.
@@ -157,16 +160,6 @@ docker exec -it lab03_cron cat /app/data/rate_MDL_EUR_2025-10-11.json
 
 ## Библиография
 Python Documentation
-
 Docker Documentation
-
 Docker Compose Documentation
-
 Cron HowTo — Ubuntu Wiki
-
-
-
-
-
-
-
