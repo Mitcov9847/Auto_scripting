@@ -77,7 +77,6 @@ COPY cronjob /etc/cron.d/cronjob
 COPY entrypoint.sh /entrypoint.sh
 ```
 
-
 # Создание docker-compose.yml
 
 <img width="417" height="292" alt="image" src="https://github.com/user-attachments/assets/7b0d28d9-32f4-4b6d-9b8a-bc3dc004f187" />
@@ -91,9 +90,9 @@ restart: always — автоматический перезапуск.
 
 # 4. Результаты запуска
 ## 4.1. Сборка Docker-образа
-
+```
 PS C:\Users\mihai\Desktop\AS\lab03> docker compose build
-
+```
 Вывод:
 <img width="816" height="305" alt="image" src="https://github.com/user-attachments/assets/e28b919c-0664-41f7-b057-3e228c1e3f62" />
 
@@ -101,8 +100,9 @@ PS C:\Users\mihai\Desktop\AS\lab03> docker compose build
 Образ lab03-cronjob успешно собран. Все зависимости, включая cron, установлены.
 
 ## 4.2. Запуск контейнера
+```
 PS C:\Users\mihai\Desktop\AS\lab03> docker compose up -d
-
+```
 Вывод:
 <img width="817" height="162" alt="image" src="https://github.com/user-attachments/assets/930719c4-932d-4b36-87f2-0cc6f0c278d1" />
 
@@ -117,22 +117,21 @@ PS C:\Users\mihai\Desktop\AS\lab03> docker compose up -d
 Каждую минуту cron запускает скрипт currency_exchange_rate.py, а результат записывается в cron.log.
 
 ## 4.4. Ручной запуск скрипта внутри контейнера
-
+```
 PS C:\Users\mihai\Desktop\AS\lab03> docker exec -it lab03_cron python3 /app/currency_exchange_rate.py MDL EUR 2025-10-11
-
+```
 Вывод:
-
 [2025-10-12T07:42:50.316087] currency_exchange_rate.py called with args: MDL EUR 2025-10-11
 
 Комментарий:
 Скрипт работает корректно, вывод соответствует переданным аргументам.
 
 ## 4.5. Проверка директории проекта и логов
+
 PS C:\Users\mihai\Desktop\AS\lab03> dir
 
-
 Вывод:
-
+```
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
 d-----        12.10.2025     10:21                logs
@@ -142,7 +141,7 @@ d-----        12.10.2025     10:21                logs
 -a----        12.10.2025     10:09            807 Dockerfile
 -a----        12.10.2025     10:20            437 entrypoint.sh
 -a----        12.10.2025     10:10            519 readme.md
-
+```
 
 Комментарий:
 Все файлы на месте, папка logs существует для хранения логов cron.
@@ -163,3 +162,4 @@ Python Documentation
 Docker Documentation
 Docker Compose Documentation
 Cron HowTo — Ubuntu Wiki
+
