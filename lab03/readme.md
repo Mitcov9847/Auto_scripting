@@ -125,6 +125,7 @@ PS C:\Users\mihai\Desktop\AS\lab03> docker exec -it lab03_cron python3 /app/curr
 
 Комментарий:
 Скрипт работает корректно, вывод соответствует переданным аргументам.
+<img width="1239" height="597" alt="image" src="https://github.com/user-attachments/assets/315d5925-49d8-4d35-869f-4936c11d95e4" />
 
 ## 4.5. Проверка директории проекта и логов
 
@@ -162,4 +163,5 @@ Python Documentation
 Docker Documentation
 Docker Compose Documentation
 Cron HowTo — Ubuntu Wiki
+
 
