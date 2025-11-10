@@ -45,7 +45,7 @@ yaml
 
 1. Добавляем сервис Jenkins в `docker-compose.yml`:
 
-```yaml
+```
 services:
   jenkins-controller:
     image: jenkins/jenkins:lts
@@ -64,19 +64,20 @@ volumes:
 networks:
   jenkins-network:
     driver: bridge
-Запускаем контейнер Jenkins Controller:
+```
 
-bash
-Копировать код
+Запускаем контейнер Jenkins Controller:
+```
 docker-compose up -d
 docker ps
+```
 Открываем веб-интерфейс Jenkins: http://localhost:8080
 
 Разблокируем Jenkins, используя пароль из контейнера:
 
-bash
-Копировать код
+```
 docker exec jenkins-controller cat /var/jenkins_home/secrets/initialAdminPassword
+```
 Устанавливаем рекомендуемые плагины и создаём администратора.
 
 Скриншот интерфейса Jenkins после установки:
@@ -84,27 +85,26 @@ docker exec jenkins-controller cat /var/jenkins_home/secrets/initialAdminPasswor
 Настройка SSH агента
 Зачем: SSH агент позволяет Jenkins запускать задачи на удалённых машинах или контейнерах с необходимыми правами.
 
-Шаги выполнения:
+## Шаги выполнения:
 
 Создаём папку secrets и генерируем SSH ключи:
 
-bash
-Копировать код
+```
 mkdir secrets
 cd secrets
 ssh-keygen -f jenkins_agent_ssh_key
+```
 Создаём Dockerfile для SSH агента с PHP CLI:
-
+```
 dockerfile
-Копировать код
 FROM jenkins/ssh-agent
+```
 
 # install PHP-CLI
 RUN apt-get update && apt-get install -y php-cli
 Добавляем сервис SSH агента в docker-compose.yml:
 
-yaml
-Копировать код
+```
   ssh-agent:
     build:
       context: .
@@ -121,41 +121,35 @@ yaml
 
 volumes:
   jenkins_agent_volume:
+```
 Создаём .env для передачи публичного ключа:
 
-ini
-Копировать код
+```
 JENKINS_AGENT_SSH_PUBKEY=secrets/jenkins_agent_ssh_key.pub
+```
 Перезапускаем Docker Compose:
-
-bash
-Копировать код
+```
 docker-compose up -d --build
+```
 Скриншот контейнеров Docker:
 
-Подключение SSH агента к Jenkins
+## Подключение SSH агента к Jenkins
 Зачем: Нужно, чтобы Jenkins мог запускать задачи на нашем SSH агенте.
 
 Шаги выполнения:
 
 Проверяем, что установлен SSH Agents Plugin.
-
 Добавляем SSH ключ в Jenkins:
-
 Manage Jenkins → Manage Credentials → Add Credentials
 
 Username: jenkins
-
 Private Key: выбираем jenkins_agent_ssh_key
 
 Создаём новый агент:
 
 Manage Jenkins → Manage Nodes → New Node
-
 Имя: ssh-agent1
-
 Тип: Permanent Agent
-
 Метка: php-agent
 
 Remote root directory: /home/jenkins/agent
@@ -173,8 +167,7 @@ Credentials: выбранный SSH ключ
 
 Пример Jenkinsfile:
 
-groovy
-Копировать код
+```
 pipeline {
     agent {
         label 'php-agent'
@@ -208,6 +201,7 @@ pipeline {
         }
     }
 }
+```
 Скриншот пайплайна:
 
 Результаты работы
@@ -221,9 +215,8 @@ Unit-тесты прошли без ошибок.
 
 Скриншот результатов выполнения пайплайна:
 
-Ответы на вопросы
+## Ответы на вопросы
 Преимущества использования Jenkins для DevOps автоматизации:
-
 Автоматизация сборки, тестирования и деплоя.
 
 Централизованное управление задачами CI/CD.
@@ -233,22 +226,16 @@ Unit-тесты прошли без ошибок.
 Поддержка множества плагинов и интеграций.
 
 Типы Jenkins агентов:
-
 SSH агенты
-
 JNLP агенты
-
 Docker агенты
 
 Permanent и ephemeral агенты
 
 Проблемы при настройке Jenkins и их решение:
-
 Ошибки доступа к SSH агенту → проверка ключей и путей.
-
 Ошибки сборки контейнера → перезапуск с --build.
-
 Отсутствие PHP CLI на агенте → установка через Dockerfile.
 
-Заключение
+## Заключение
 Лабораторная работа выполнена полностью. Все цели достигнуты: Jenkins Controller и SSH агент настроены, DevOps pipeline для PHP проекта работает корректно.
