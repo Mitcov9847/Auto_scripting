@@ -234,16 +234,32 @@ docker compose up -d --build
 
 ```
 pipeline {
-  agent { label 'php-agent' }
-
-  stages {
-    stage('Install Dependencies') {
-      steps { dir('lab04/recipe-book') { sh 'composer install' } }
+    agent { label 'php-agent' }
+    stages {
+        stage('Clone repository') {
+            steps {
+                git 'https://github.com/yourusername/yourproject.git'
+            }
+        }
+        stage('Install dependencies') {
+            steps {
+                bat 'composer install'
+            }
+        }
+        stage('Run tests') {
+            steps {
+                bat 'php C:\\School\\phpunit.phar tests'
+            }
+        }
     }
-    stage('Test') {
-      steps { dir('lab04/recipe-book') { sh './vendor/bin/phpunit --testdox tests' } }
+    post {
+        success {
+            echo 'Pipeline выполнен успешно!'
+        }
+        failure {
+            echo 'Pipeline завершился с ошибкой.'
+        }
     }
-  }
 }
 ```
 <img width="1310" height="591" alt="{553540C6-33F0-4E3A-B2D8-C335FF7F1030}" src="https://github.com/user-attachments/assets/b1000204-1f03-4d9f-8d6f-289edee735c7" />
