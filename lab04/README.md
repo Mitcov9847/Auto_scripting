@@ -222,10 +222,10 @@ docker compose up -d --build
 ---
 
 ## Шаг 11 — Проверка работы агента
-<img width="386" height="165" alt="{4BAFC3D3-3024-4E21-AD8B-FF43A40E0738}" src="https://github.com/user-attachments/assets/d04c613c-df35-4f90-b1b0-cb9b616ae215" />
 1. В Jenkins нажал **Launch agent** на странице узла.  
 2. После успешного подключения статус изменился на **online**.  
-3. Создал тестовую задачу `test-agent-job`, ограничил выполнение меткой `php-agent` и добавил команду:
+3. Создал тестовую задачу , ограничил выполнение меткой `php-agent` и добавил команду:
+<img width="733" height="324" alt="{AD50F548-BF3A-4AAC-B8DF-C7538EBC172A}" src="https://github.com/user-attachments/assets/3e211ff3-d5bf-4d81-bb81-993e66dc615b" />
 
 ---
 
