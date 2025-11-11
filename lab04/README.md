@@ -134,8 +134,9 @@ docker ps
 ---
 
 ## Шаг 7 — Первичная настройка Jenkins (в браузере)
-1. Перешёл на `http://localhost:8080`.  
-2. Получил пароль администратора:
+1. Перешёл на `http://localhost:8080`.
+<img width="1101" height="607" alt="{EC33160C-5139-4920-B99E-810A41AEDFF6}" src="https://github.com/user-attachments/assets/3589edee-2a04-46b1-811a-0682fba30a92" />
+3. Получил пароль администратора:
 ```
 docker exec -it jenkins-controller cat /var/jenkins_home/secrets/initialAdminPassword
 ```
