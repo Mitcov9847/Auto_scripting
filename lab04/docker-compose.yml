@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   jenkins-controller:
     image: jenkins/jenkins:lts
@@ -6,12 +8,29 @@ services:
       - "8080:8080"
       - "50000:50000"
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - ./jenkins_home:/var/jenkins_home
+      - ./jenkins_agent_ssh_key:/var/jenkins_home/jenkins_agent_ssh_key:ro
+    networks:
+      - jenkins-network
+
+  ssh-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ssh-agent
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=${JENKINS_AGENT_SSH_PUBKEY}
+    volumes:
+      - jenkins_agent_volume:/home/jenkins/agent
+    depends_on:
+      - jenkins-controller
     networks:
       - jenkins-network
 
 volumes:
   jenkins_home:
+  jenkins_agent_volume:
+
 
 networks:
   jenkins-network:
