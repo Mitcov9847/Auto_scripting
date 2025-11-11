@@ -46,7 +46,7 @@ services:
       - "8080:8080"
       - "50000:50000"
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - ./jenkins_home:/var/jenkins_home
       - ./jenkins_agent_ssh_key:/var/jenkins_home/jenkins_agent_ssh_key:ro
     networks:
       - jenkins-network
@@ -69,12 +69,12 @@ volumes:
   jenkins_home:
   jenkins_agent_volume:
 
+
 networks:
   jenkins-network:
     driver: bridge
 ```
-
-Комментарий: я добавил монтирование `jenkins_agent_ssh_key` в контроллер, чтобы второй этапу проверять ключ (в ходе работ пришлось изменить подход — см. раздел troubleshooting).
+<img width="1465" height="941" alt="{D03B4FD0-BBEC-4004-B119-B02527BBF66D}" src="https://github.com/user-attachments/assets/9d42236f-a6fb-4d20-b8f9-37fddc0f2e7c" />
 
 ---
 
@@ -88,20 +88,23 @@ ssh-keygen -f jenkins_agent_ssh_key -N ""
 Результат:
 - `jenkins_agent_ssh_key` — приватный
 - `jenkins_agent_ssh_key.pub` — публичный
+<img width="697" height="43" alt="{D3BD43ED-4752-4134-A184-637D73794514}" src="https://github.com/user-attachments/assets/044d5904-06f0-4c90-a584-228e71a7830d" />
 
 ---
 
 ## Шаг 4 — Создал `Dockerfile` для ssh-agent
-Файл `Dockerfile` (в корне `lab04`):
-```dockerfile
-FROM jenkins/ssh-agent
+Файл `Dockerfile`:
+```
+FROM jenkins/ssh-agent:latest
 
-RUN apt-get update \
- && apt-get install -y php-cli php-xml php-mbstring git curl unzip \
- && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
- && rm -rf /var/lib/apt/lists/*
+COPY jenkins_agent_ssh_key /home/jenkins/agent/jenkins_agent_ssh_key
+
+RUN chown jenkins:jenkins /home/jenkins/agent/jenkins_agent_ssh_key \
+    && chmod 600 /home/jenkins/agent/jenkins_agent_ssh_key
+
 ```
 Комментарий: добавил PHP и composer для запуска тестов PHPUnit на агенте.
+<img width="1533" height="462" alt="{4394229A-0F08-40DC-BFF4-E4EA8532DA0B}" src="https://github.com/user-attachments/assets/d0a9d64a-bde3-47c2-8464-16f4a39a85bb" />
 
 ---
 
@@ -111,28 +114,34 @@ RUN apt-get update \
 JENKINS_AGENT_SSH_PUBKEY="ssh-rsa AAAAB3NzaC1y... jenia@DESKTOP-KADC37L"
 ```
 Пояснение: в Windows я установил переменную в сессии командой `set` перед запуском compose, либо сохранил `.env` в каталоге.
+<img width="1010" height="242" alt="{1D341F9C-0887-4E55-9F3F-728DFD246885}" src="https://github.com/user-attachments/assets/acdeac72-8063-4a4c-a1b6-65b51d3a6e5e" />
 
 ---
 
 ## Шаг 6 — Запуск Docker Compose
 Команда:
-```powershell
+```
 docker compose up -d --build
 ```
 Ожидаемый вывод: оба контейнера `jenkins-controller` и `ssh-agent` в статусе `Up`. Я проверял через:
-```powershell
+<img width="1194" height="670" alt="{4EBE735B-055A-419A-BA86-A9889D7FC28E}" src="https://github.com/user-attachments/assets/ba37a49b-5d47-48c2-8b9d-1e29c4969c93" />
+
+```
 docker ps
 ```
+<img width="1199" height="207" alt="{DE1EE6FD-15B7-435B-9700-99483E3DA41C}" src="https://github.com/user-attachments/assets/bbe6fd4f-9b7a-43d9-96d2-2bfe52504819" />
 
 ---
 
 ## Шаг 7 — Первичная настройка Jenkins (в браузере)
 1. Перешёл на `http://localhost:8080`.  
 2. Получил пароль администратора:
-```powershell
+```
 docker exec -it jenkins-controller cat /var/jenkins_home/secrets/initialAdminPassword
 ```
+
 3. Вставил пароль в поле Unlock Jenkins, выбрал **Install suggested plugins**, затем создал администратора.
+<img width="1188" height="32" alt="{3F67982F-0D33-4FAC-82E6-118580AD4872}" src="https://github.com/user-attachments/assets/e69ada28-69c8-4908-b63f-707c59d94e2a" />
 
 ---
 
@@ -143,7 +152,8 @@ docker exec -it jenkins-controller cat /var/jenkins_home/secrets/initialAdminPas
    - Private Key: **Enter directly** — вставил содержимое `jenkins_agent_ssh_key`
    - Passphrase: пусто  
 3. Создал запись.
-
+4. 
+<img width="1256" height="605" alt="{AE1DD000-47ED-4C9E-915E-A131C1290176}" src="https://github.com/user-attachments/assets/ed3a9440-22a8-4b74-bb1c-9800016d6eb0" />
 Комментарий: этот шаг необходим для того, чтобы Jenkins мог использовать приватный ключ при подключении к ssh-agent.
 
 ---
