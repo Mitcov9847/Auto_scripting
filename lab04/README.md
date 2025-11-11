@@ -222,16 +222,15 @@ docker compose up -d --build
 ---
 
 ## Шаг 11 — Проверка работы агента
+<img width="386" height="165" alt="{4BAFC3D3-3024-4E21-AD8B-FF43A40E0738}" src="https://github.com/user-attachments/assets/d04c613c-df35-4f90-b1b0-cb9b616ae215" />
 1. В Jenkins нажал **Launch agent** на странице узла.  
 2. После успешного подключения статус изменился на **online**.  
 3. Создал тестовую задачу `test-agent-job`, ограничил выполнение меткой `php-agent` и добавил команду:
 
-<img width="386" height="165" alt="{4BAFC3D3-3024-4E21-AD8B-FF43A40E0738}" src="https://github.com/user-attachments/assets/d04c613c-df35-4f90-b1b0-cb9b616ae215" />
-
 ---
 
-## Шаг 12 — Создание Jenkins Pipeline для PHP проекта (коротко)
-
+## Шаг 12 — Создание Jenkins Pipeline для PHP проекта
+<img width="1310" height="591" alt="{553540C6-33F0-4E3A-B2D8-C335FF7F1030}" src="https://github.com/user-attachments/assets/b1000204-1f03-4d9f-8d6f-289edee735c7" />
 ```
 pipeline {
     agent any
@@ -261,8 +260,6 @@ pipeline {
 }
 
 ```
-<img width="1310" height="591" alt="{553540C6-33F0-4E3A-B2D8-C335FF7F1030}" src="https://github.com/user-attachments/assets/b1000204-1f03-4d9f-8d6f-289edee735c7" />
-
 Настроил Job в Jenkins: New Item → Pipeline → Pipeline script from SCM → указал репозиторий, ветку `lab04` и `Script Path` = `lab04/recipe-book/Jenkinsfile`.
 
 ---
