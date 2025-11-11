@@ -234,30 +234,36 @@ docker compose up -d --build
 
 ```
 pipeline {
-    agent { label 'php-agent' }
+    agent any
+
     stages {
         stage('Clone repository') {
             steps {
-                git 'https://github.com/yourusername/yourproject.git'
+                // Клонируем репозиторий
+                git branch: 'main',
+                    url: 'https://github.com/Mitcov9847/Auto_scripting.git'
             }
         }
+
         stage('Install dependencies') {
             steps {
-                bat 'composer install'
+                dir('lab04/project JENIKS') {
+                    // Устанавливаем зависимости через composer
+                    bat 'C:\\php\\composer.phar install'
+                }
             }
         }
+
         stage('Run tests') {
             steps {
-                bat 'php C:\\School\\phpunit.phar tests'
-            }
-        }
-    }
+                dir('lab04/project JENIKS') {
+                    // Запуск PHPUnit
+                    bat 'C:\\php\\phpunit.phar tests'
+                }    }  } }
+
     post {
-        success {
-            echo 'Pipeline выполнен успешно!'
-        }
-        failure {
-            echo 'Pipeline завершился с ошибкой.'
+        always {
+            echo 'Pipeline завершён.'
         }
     }
 }
