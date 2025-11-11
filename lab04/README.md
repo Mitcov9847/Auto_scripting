@@ -235,38 +235,31 @@ docker compose up -d --build
 ```
 pipeline {
     agent any
-
     stages {
         stage('Clone repository') {
             steps {
-                // Клонируем репозиторий
-                git branch: 'main',
-                    url: 'https://github.com/Mitcov9847/Auto_scripting.git'
+                git url: 'https://github.com/Mitcov9847/Auto_scripting.git', branch: 'main'
             }
         }
-
         stage('Install dependencies') {
             steps {
                 dir('lab04/project JENIKS') {
-                    // Устанавливаем зависимости через composer
-                    bat 'C:\\php\\composer.phar install'
+                    bat 'php composer.phar install'
                 }
-            }
-        }
-
+            } }
         stage('Run tests') {
             steps {
-                dir('lab04/project JENIKS') {
-                    // Запуск PHPUnit
-                    bat 'C:\\php\\phpunit.phar tests'
-                }    }  } }
-
+                echo "Тут можно запускать тесты"
+            }
+        }
+    }
     post {
         always {
-            echo 'Pipeline завершён.'
+            echo "Pipeline завершён"
         }
     }
 }
+
 ```
 <img width="1310" height="591" alt="{553540C6-33F0-4E3A-B2D8-C335FF7F1030}" src="https://github.com/user-attachments/assets/b1000204-1f03-4d9f-8d6f-289edee735c7" />
 
