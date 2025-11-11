@@ -225,19 +225,14 @@ docker compose up -d --build
 1. В Jenkins нажал **Launch agent** на странице узла.  
 2. После успешного подключения статус изменился на **online**.  
 3. Создал тестовую задачу `test-agent-job`, ограничил выполнение меткой `php-agent` и добавил команду:
-```bash
-echo "Hello from agent"
-hostname
-```
-4. Запустил — в логах увидел ожидаемые строки и статус `SUCCESS`.
+
+<img width="386" height="165" alt="{4BAFC3D3-3024-4E21-AD8B-FF43A40E0738}" src="https://github.com/user-attachments/assets/d04c613c-df35-4f90-b1b0-cb9b616ae215" />
 
 ---
 
 ## Шаг 12 — Создание Jenkins Pipeline для PHP проекта (коротко)
-В репозитории `https://github.com/iurii1801/auto_scripting` в ветке `lab04` находится `lab04/recipe-book`.  
-Добавил `Jenkinsfile`:
 
-```groovy
+```
 pipeline {
   agent { label 'php-agent' }
 
@@ -251,56 +246,34 @@ pipeline {
   }
 }
 ```
+<img width="1310" height="591" alt="{553540C6-33F0-4E3A-B2D8-C335FF7F1030}" src="https://github.com/user-attachments/assets/b1000204-1f03-4d9f-8d6f-289edee735c7" />
 
 Настроил Job в Jenkins: New Item → Pipeline → Pipeline script from SCM → указал репозиторий, ветку `lab04` и `Script Path` = `lab04/recipe-book/Jenkinsfile`.
 
 ---
+## Контрольные вопросы
 
-## Полезные команды (итоговый набор)
+1. Какие преимущества даёт использование Jenkins в DevOps?
+Jenkins обеспечивает автоматизацию процессов сборки, тестирования и доставки (CI/CD), минимизируя ручные действия и снижая вероятность ошибок. Его гибкая система плагинов позволяет интегрировать различные технологии и инструменты. Архитектура "controller–agent" даёт возможность масштабирования и разделения задач между разными узлами.
 
-```powershell
-# Запуск контейнеров
-docker compose up -d --build
+2. Какие существуют типы агентов в Jenkins?
+Помимо SSH-агентов, Jenkins поддерживает:
 
-# Посмотреть работающие контейнеры
-docker ps
+JNLP-агенты — подключаются по протоколу JNLP, часто используются для Windows.
+Docker-агенты — работают в изолированных контейнерах.
+Kubernetes-агенты — создаются динамически в кластере Kubernetes.
+Static agents — постоянные, вручную настроенные узлы.
+Cloud agents — временные экземпляры, разворачиваемые в облаке.
 
-# Получить пароль initialAdminPassword
-docker exec -it jenkins-controller cat /var/jenkins_home/secrets/initialAdminPassword
-
-# Войти в контейнер
-docker exec -it jenkins-controller bash
-
-# Удаление старого known_hosts записи внутри контейнера
-ssh-keygen -f "/var/jenkins_home/.ssh/known_hosts" -R "ssh-agent"
-
-# Проверка SSH вручную
-ssh -i /var/jenkins_home/jenkins_agent_ssh_key -o StrictHostKeyChecking=no jenkins@ssh-agent
-```
-
+3. С какими трудностями вы столкнулись и как их решили?
+Возникали ошибки при подключении агента по SSH. Решением стало корректное создание и добавление SSH-ключей в Jenkins Credentials.
+Также пришлось доустановить необходимые PHP-пакеты в контейнер агента и уточнить путь к Jenkinsfile в настройках Pipeline.
+После исправлений система успешно выполнила сборку.
 ---
 
-## Заключение и рекомендации
+## Заключение 
 
-- Всю чувствительную информацию (приватные ключи) хранить вне публичного репозитория. Лучше использовать Jenkins Credentials или секретные хранилища.
 - При работе на Windows объёмную часть прав удобнее регулировать через `icacls`.
 - Для production-окружений рекомендую использовать динамические агенты (Docker Cloud / Kubernetes), а не статические SSH-агенты.
 - Если агент не подключается — первым делом проверяйте логи контейнера (`docker logs <name>`) и `known_hosts`/permissions на ключи.
-
----
-
-## Места под скриншоты
-
-Вставьте сюда ссылки или изображения:
-
-- Скриншот: вывод `docker ps`  
-- Скриншот: Unlock Jenkins  
-- Скриншот: Добавление Credentials в Jenkins  
-- Скриншот: Конфигурация узла (Node)  
-- Скриншот: Успешная сборка
-
----
-
-### Готовый файл
-Файл `README.md` сохранён и доступен для скачивания ниже.
 
