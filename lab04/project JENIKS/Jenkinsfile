@@ -1,0 +1,36 @@
+pipeline {
+    agent {
+        label 'php-agent'
+    }
+
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                echo 'Preparing project...'
+                dir('lab04/recipe-book') {
+                    sh 'composer install'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir('lab04/recipe-book') {
+                    sh './vendor/bin/phpunit --testdox tests'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline completed.'
+        }
+        success {
+            echo 'All stages completed successfully!'
+        }
+        failure {
+            echo 'Errors detected in the pipeline.'
+        }
+    }
+}
