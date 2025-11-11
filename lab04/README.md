@@ -173,7 +173,7 @@ docker exec -it jenkins-controller cat /var/jenkins_home/secrets/initialAdminPas
 5. Сохранил → попытка подключения
 
 <img width="1215" height="450" alt="{070C83FD-BC9D-4F28-AB2C-DEC1F30118E9}" src="https://github.com/user-attachments/assets/497f57ee-a1d1-47f9-861c-d7235699b0bc" />
-<img width="1729" height="897" alt="{F630D5C9-6575-4CD1-A196-C85BD9D0D775}" src="https://github.com/user-attachments/assets/f5b77c10-3995-4080-97d5-83ec3a438cb5" />
+<img width="1913" height="816" alt="{FFE95B3F-4D0E-440F-BAD5-F9112D0D9C42}" src="https://github.com/user-attachments/assets/370cebd4-b893-4f4c-abb2-0d0b72bdc8e7" />
 
 ---
 
