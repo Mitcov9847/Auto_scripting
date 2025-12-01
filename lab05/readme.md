@@ -1160,9 +1160,7 @@ http://localhost:8088
 - текст «Пока нет рецептов», если база пустая
 - ссылки **«Добавить новый рецепт»** и **«Все рецепты»**
 
-Пример результата:
-
-![image](https://i.imgur.com/TNPsUvl.png)
+<img width="580" height="123" alt="{22FBF134-3042-4F5A-84EA-601B5A8ADF42}" src="https://github.com/user-attachments/assets/879c76ac-299d-4a58-b6c9-028be66cb528" />
 
 Это означает:
 
