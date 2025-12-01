@@ -26,10 +26,11 @@ services:
       context: .
       dockerfile: Dockerfile.ansible_agent
     container_name: ansible-agent
-    user: ansible
     volumes:
-      - ./ssh_keys/id_rsa:/home/ansible/.ssh/id_rsa:ro
-      - ./ssh_keys/id_rsa.pub:/home/ansible/.ssh/id_rsa.pub:ro
+      - ./ansible:/ansible
+      - ./keys/ansible_key:/home/ansible/.ssh/id_rsa:ro
+      - ./keys/ansible_key.pub:/home/ansible/.ssh/id_rsa.pub:ro
+    user: ansible
     restart: unless-stopped
 
   test-server:
@@ -37,11 +38,11 @@ services:
       context: .
       dockerfile: Dockerfile.test_server
     container_name: test-server
-    user: root
     ports:
       - "2222:22"
     volumes:
-      - ./ssh_keys/id_rsa.pub:/home/ansible/.ssh/authorized_keys:ro
+      - ./keys/ansible_key.pub:/home/ansible/.ssh/authorized_keys:ro
+    user: root
     restart: unless-stopped
 
 volumes:

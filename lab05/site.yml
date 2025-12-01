@@ -1,0 +1,33 @@
+---
+- name: Настройка веб-сервера в WSL
+  hosts: webserver
+  become: yes
+  tasks:
+    - name: Установить Apache
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+
+    - name: Установить PHP
+      apt:
+        name: php
+        state: present
+
+    - name: Копировать index.php
+      copy:
+        src: files/index.php
+        dest: /var/www/html/index.php
+        owner: www-data
+        group: www-data
+        mode: 0644
+
+    - name: Настроить Apache на порт 8080
+      lineinfile:
+        path: /etc/apache2/ports.conf
+        regexp: '^Listen '
+        line: 'Listen 8081'
+
+    - name: Перезапустить Apache (WSL workaround)
+      command: apache2ctl -k restart
+

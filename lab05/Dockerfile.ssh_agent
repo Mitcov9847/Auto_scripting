@@ -1,34 +1,10 @@
-# SSH-агент для сборки PHP-проекта
-FROM php:8.3-cli
+FROM ubuntu:22.04
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Устанавливаем SSH-сервер, JDK и утилиты
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    openssh-server \
+RUN apt-get update && apt-get install -y \
+    openssh-client \
+    php-cli \
     git \
-    unzip \
-    zip \
-    rsync \
-    openjdk-21-jre-headless \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
-# Устанавливаем Composer
-RUN curl -sS https://getcomposer.org/installer | php -- \
-      --install-dir=/usr/local/bin --filename=composer
-
-# Создаем пользователя jenkins
-RUN useradd -m -d /home/jenkins -s /bin/bash jenkins
-
-RUN mkdir -p /var/run/sshd
-
-# Копируем публичный ключ (обязательно!)
-COPY secrets/jenkins_agent_ssh_key.pub /home/jenkins/.ssh/authorized_keys
-
-RUN chown -R jenkins:jenkins /home/jenkins/.ssh && \
-    chmod 700 /home/jenkins/.ssh && \
-    chmod 600 /home/jenkins/.ssh/authorized_keys
-
-EXPOSE 22
-
-CMD ["/usr/sbin/sshd", "-D", "-e"]
+# Добавляем рабочую директорию
+WORKDIR /root

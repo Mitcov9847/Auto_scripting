@@ -1,6 +1,6 @@
-FROM jenkins/ssh-agent
+FROM jenkins/ssh-agent:latest
 
-RUN apt-get update \
- && apt-get install -y php-cli php-xml php-mbstring git curl unzip \
- && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
- && rm -rf /var/lib/apt/lists/*
+COPY jenkins_agent_ssh_key /home/jenkins/agent/jenkins_agent_ssh_key
+
+RUN chown jenkins:jenkins /home/jenkins/agent/jenkins_agent_ssh_key \
+    && chmod 600 /home/jenkins/agent/jenkins_agent_ssh_key
