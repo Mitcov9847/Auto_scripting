@@ -191,9 +191,9 @@ CMD ["/usr/sbin/sshd", "-D", "-e"]
 Для генерации пары ключей (один раз в lab04) используется команда:
 
 ```bash
-mkdir -p secrets
-ssh-keygen -t ed25519 -f secrets/jenkins_agent_ssh_key -C "jenkins@lab"
+C:\Users\jenia\Desktop\AS_Croitor\lab05\ssh_keys>ssh-keygen -t rsa -b 4096 -C "ansible" -f id_rsa -N ""
 ```
+<img width="1119" height="381" alt="{D326B9AA-66E4-4D97-B94A-581E2FBD1532}" src="https://github.com/user-attachments/assets/921c4b95-09bc-4001-b44f-a47f4ea6c9ff" />
 
 - `secrets/jenkins_agent_ssh_key` — **приватный** ключ (остаётся на хосте и в Jenkins Credentials).
 - `secrets/jenkins_agent_ssh_key.pub` — **публичный** ключ (копируется в контейнер SSH-агента, как указано в Dockerfile).
@@ -243,16 +243,13 @@ volumes:
 docker compose build ssh-agent
 ```
 
-![image](https://i.imgur.com/6tm4sQ7.png)
-![image](https://i.imgur.com/yGFQtgX.png)
-
 2. Запустить оба сервиса в фоне:
 
 ```bash
 docker compose up -d
 ```
 
-![image](https://i.imgur.com/SeHMWQa.png)
+<img width="1142" height="259" alt="{4786E231-E45D-4971-B6AD-95CBE91B0C1E}" src="https://github.com/user-attachments/assets/3834e2a5-4a56-4c7e-b023-3ecfd083bb9f" />
 
 3. Убедиться, что контейнеры запущены и порты проброшены корректно:
 
@@ -265,7 +262,8 @@ docker ps
 - контейнер **jenkins-controller** в статусе `Up`, порты `9090` и `50000` проброшены;
 - контейнер **ssh-agent** в статусе `Up`, порт `2222->22/tcp`.
 
-![image](https://i.imgur.com/mRsFQyQ.png)
+<img width="1150" height="268" alt="{413EAD0C-4714-45E8-A194-9FB1B7564665}" src="https://github.com/user-attachments/assets/d92dd8e5-978d-417b-952e-6519eec4708e" />
+
 
 ### Шаг 3. Создание агента Ansible
 
@@ -336,9 +334,7 @@ CMD ["/usr/sbin/sshd", "-D", "-e"]
 ```bash
 ssh-keygen -t ed25519 -f secrets/jenkins_ansible_ssh_key -C "jenkins->ansible-agent"
 ```
-
-![image](https://i.imgur.com/MxWVSin.png)
-![image](https://i.imgur.com/pHxOADG.png)
+<img width="1108" height="416" alt="{4C99A36A-1A10-4CE4-8278-847E0D44F673}" src="https://github.com/user-attachments/assets/f52957b1-521d-41f6-b49f-57fd0d79642c" />
 
 #### 3.3. Генерация SSH-ключей Ansible-агента → тестовый сервер
 
@@ -347,11 +343,9 @@ ssh-keygen -t ed25519 -f secrets/jenkins_ansible_ssh_key -C "jenkins->ansible-ag
 Команда:
 
 ```bash
-ssh-keygen -t ed25519 -f secrets/ansible_test_ssh_key -C "ansible->test-server"
+jenkins@71886bb847d9:/$ ssh-keygen -t rsa -b 4096 -C "jenkins" -f /var/jenkins_home/.ssh/id_rsa -N ""
 ```
-
-![image](https://i.imgur.com/zedGJ6N.png)
-![image](https://i.imgur.com/aSaysok.png)
+<img width="1084" height="383" alt="{5BB9756F-0DE6-49EC-8EF4-F4EFCFF45115}" src="https://github.com/user-attachments/assets/5a97b482-ce8c-4ad4-8bdc-68cdecba99d5" />
 
 #### 3.4. Добавление сервиса `ansible-agent` в docker-compose
 
@@ -377,8 +371,7 @@ ansible-agent:
 ```bash
 docker compose build ansible-agent
 ```
-
-![image](https://i.imgur.com/Rp2rfse.png)
+<img width="1187" height="539" alt="{F9B5C39F-AE52-4A76-BBE0-BCDA1A36873A}" src="https://github.com/user-attachments/assets/cc4402f9-5393-4088-881e-07220796fa3e" />
 
 #### 3.6. Запуск контейнеров и проверка контейнеров
 
@@ -400,7 +393,8 @@ docker ps
 - `ssh-agent` — running
 - `ansible-agent` — running, порт `2223->22`
 
-![image](https://i.imgur.com/NAZmVBA.png)
+<img width="1149" height="236" alt="{0A756ABB-5922-49B6-9145-C867595015EB}" src="https://github.com/user-attachments/assets/6e75b794-c62c-4fcb-8659-22a1460c36ad" />
+
 
 ### Шаг 4. Создание тестового сервера
 
@@ -449,27 +443,66 @@ RUN chown ansible:ansible /home/ansible/.ssh/authorized_keys && \
 
 EXPOSE 22
 
-CMD ["/usr/sbin/sshd", "-D", "-e"]
+PS C:\Users\jenia\Desktop\AS_Croitor\lab05> CMD ["tail", "-f", "/dev/null"]
 ```
-
-![image](https://i.imgur.com/GAOzIAR.png)
+<img width="783" height="79" alt="{7336CF08-CBB3-4925-A622-2C8B53DCF9A6}" src="https://github.com/user-attachments/assets/4221ecf7-d631-41be-bd9d-83c5e00b517c" />
 
 #### 4.2 Добавление сервиса `test-server` в docker-compose.yaml
 
 В файл `docker-compose.yaml` добавляется новый сервис:
 
 ```yaml
-test-server:
-  build:
-    context: .
-    dockerfile: Dockerfile.test_server
-  container_name: test-server
-  ports:
-    - "2224:22"
-  restart: unless-stopped
-```
+version: '3.8'
 
-![image](https://i.imgur.com/VxeJk6T.png)
+services:
+  jenkins-controller:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-controller
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+  ssh-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh_agent
+    container_name: ssh-agent
+    volumes:
+      - ./ssh_keys:/root/.ssh
+    restart: unless-stopped
+
+  ansible-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.ansible_agent
+    container_name: ansible-agent
+    user: ansible
+    volumes:
+      - ./ssh_keys/id_rsa:/home/ansible/.ssh/id_rsa:ro
+      - ./ssh_keys/id_rsa.pub:/home/ansible/.ssh/id_rsa.pub:ro
+    restart: unless-stopped
+
+  test-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.test_server
+    container_name: test-server
+    user: root
+    ports:
+      - "2222:22"
+    volumes:
+      - ./ssh_keys/id_rsa.pub:/home/ansible/.ssh/authorized_keys:ro
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
+
+```
+<img width="1466" height="898" alt="{18F6112F-AD37-47DB-837A-5A323E5C3256}" src="https://github.com/user-attachments/assets/a00ddab4-7228-4bd2-88ce-266261fe9030" />
 
 #### 4.3 Сборка образа тестового сервера
 
@@ -479,30 +512,15 @@ test-server:
 docker compose build test-server
 ```
 
-![image](https://i.imgur.com/T37E9kw.png)
+<img width="585" height="54" alt="{FD1AB285-9630-4783-8E30-E36265C7DF7C}" src="https://github.com/user-attachments/assets/bf864a33-d961-4bb4-a3d5-5c0e62444074" />
+
 
 #### 4.4 Запуск всех контейнеров
 
 ```bash
 docker compose up -d
 ```
-
-![image](https://i.imgur.com/SAYWR4Y.png)
-
-#### 4.5 Проверка работы контейнеров
-
-```bash
-docker ps
-```
-
-Ожидаемая картина:
-
-- `jenkins-controller` — Running
-- `ssh-agent` — Running
-- `ansible-agent` — Running
-- `test-server` — Running, порт **2224 → 22**
-
-![image](https://i.imgur.com/ZVZVtmA.png)
+<img width="1128" height="258" alt="{EA10A31E-E37C-4EF8-8109-E63916066866}" src="https://github.com/user-attachments/assets/62fe4c24-7921-4d07-a668-cabb73d20dbf" />
 
 ### Шаг 5. Создание Ansible playbook для настройки тестового сервера
 
@@ -533,8 +551,6 @@ test-server ansible_host=test-server ansible_port=22 ansible_user=ansible ansibl
 - `ansible_user=ansible` — пользователь, под которым Ansible подключается по SSH;
 - `ansible_ssh_private_key_file=/home/ansible/.ssh/id_ed25519` — путь к приватному ключу, который мы положили в образ `ansible-agent`;
 - `ansible_python_interpreter=/usr/bin/python3` — путь к Python 3 на целевой машине.
-
-![image](https://i.imgur.com/0Tgtgkk.png)
 
 #### 5.2. Создание Ansible playbook `setup_test_server.yml`
 
@@ -648,10 +664,9 @@ test-server ansible_host=test-server ansible_port=22 ansible_user=ansible ansibl
 - создаёт конфигурацию виртуального хоста `recipe-book.conf` с `ServerName recipe-book.local` и корнем `{{ app_public }}`;
 - включает сайт `recipe-book`, отключает дефолтный `000-default.conf`;
 - применяет изменения через хэндлер `Reload Apache` и гарантирует, что служба `apache2` запущена и включена в автозапуск.
+  
+<img width="1920" height="641" alt="{C56C0DE0-CF65-414B-9F0E-3D0BA0D68D87}" src="https://github.com/user-attachments/assets/62e95d86-e1a5-44e6-bb35-711fcff1fe52" />
 
-![image](https://i.imgur.com/XQoFec4.png)
-![image](https://i.imgur.com/K6AbF7l.png)
-![image](https://i.imgur.com/advbKpL.png)
 
 ### Шаг 6. Настройка и запуск Jenkins Pipeline для тестирования PHP-проекта
 
