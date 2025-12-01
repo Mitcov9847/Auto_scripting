@@ -57,7 +57,6 @@ volumes:
   jenkins_home:
 ```
 
-![image](https://i.imgur.com/MXktSMv.png)
 
 #### 1.2. Запуск контейнера Jenkins Controller
 
@@ -67,18 +66,6 @@ volumes:
 cd lab05
 docker compose up -d
 ```
-
-![image](https://i.imgur.com/PC40YyZ.png)
-
-После запуска нужно проверить, что контейнер работает:
-
-```bash
-docker ps
-```
-
-Ожидается, что контейнер **jenkins-controller** находится в статусе `Up`.
-
-![image](https://i.imgur.com/GhBk2Rg.png)
 
 #### 1.3. Первичная настройка Jenkins (Unlock Jenkins)
 
