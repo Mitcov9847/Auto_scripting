@@ -112,9 +112,10 @@ docker logs jenkins-controller
 
 После установки плагинов убедиться, что они отображаются во вкладке **Installed plugins** и помечены как активные.
 
-![image](https://i.imgur.com/zhzyFLQ.png)
+<img width="1543" height="382" alt="{B8B97083-57EB-462B-B816-C50A6C9D5CA5}" src="https://github.com/user-attachments/assets/a1e8fd0e-146a-460c-bd03-9dbb7428654c" />
+<img width="1569" height="262" alt="{A32EE38E-3791-473F-A07D-BFD548FA5C60}" src="https://github.com/user-attachments/assets/2b8b2d0d-eca8-4b9d-af64-97b0831c54f5" />
+<img width="1537" height="256" alt="{D0932DE0-03BA-498F-86AA-B572E7D613D4}" src="https://github.com/user-attachments/assets/b0d461df-7bf5-4e7c-bd4a-486a464eb39d" />
 ![image](https://i.imgur.com/1mIdwgy.png)
-![image](https://i.imgur.com/kALvzPR.png)
 
 ### Шаг 2. Подготовка SSH-агента
 
