@@ -60,7 +60,7 @@ docker compose up -d
 Необходимо открыть Jenkins в браузере по адресу:
 
 ```text
-http://localhost:9090
+http://localhost:8080
 ```
 
 При первом запуске Jenkins запрашивает пароль администратора.
@@ -186,7 +186,7 @@ services:
     image: jenkins/jenkins:lts
     container_name: jenkins-controller
     ports:
-      - "9090:8080"
+      - "8080:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
@@ -235,7 +235,7 @@ docker ps
 
 Ожидаемый результат:
 
-- контейнер **jenkins-controller** в статусе `Up`, порты `9090` и `50000` проброшены;
+- контейнер **jenkins-controller** в статусе `Up`, порты `8080` и `50000` проброшены;
 - контейнер **ssh-agent** в статусе `Up`, порт `2222->22/tcp`.
 
 <img width="1150" height="268" alt="{413EAD0C-4714-45E8-A194-9FB1B7564665}" src="https://github.com/user-attachments/assets/d92dd8e5-978d-417b-952e-6519eec4708e" />
