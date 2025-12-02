@@ -35,14 +35,12 @@ services:
     image: jenkins/jenkins:lts
     container_name: jenkins-controller
     ports:
-      - "9090:8080"
+      - "8080:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
-
-volumes:
-  jenkins_home:
 ```
 
 
@@ -181,6 +179,8 @@ C:\Users\jenia\Desktop\AS_Croitor\lab05\ssh_keys>ssh-keygen -t rsa -b 4096 -C "a
 Файл должен содержать два сервиса: `jenkins-controller` и `ssh-agent`:
 
 ```yaml
+version: '3.8'
+
 services:
   jenkins-controller:
     image: jenkins/jenkins:lts
@@ -190,6 +190,7 @@ services:
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
 
   ssh-agent:
@@ -197,8 +198,32 @@ services:
       context: .
       dockerfile: Dockerfile.ssh_agent
     container_name: ssh-agent
+    volumes:
+      - ./ssh_keys:/root/.ssh
+    restart: unless-stopped
+
+  ansible-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.ansible_agent
+    container_name: ansible-agent
+    volumes:
+      - ./ansible:/ansible
+      - ./keys/ansible_key:/home/ansible/.ssh/id_rsa:ro
+      - ./keys/ansible_key.pub:/home/ansible/.ssh/id_rsa.pub:ro
+    user: ansible
+    restart: unless-stopped
+
+  test-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.test_server
+    container_name: test-server
     ports:
       - "2222:22"
+    volumes:
+      - ./keys/ansible_key.pub:/home/ansible/.ssh/authorized_keys:ro
+    user: root
     restart: unless-stopped
 
 volumes:
@@ -979,72 +1004,38 @@ pipeline {
 
 ```yml
 ---
-- name: Deploy recipe-book PHP application to test server
-  hosts: test_server
+---
+- name: Настройка веб-сервера в WSL
+  hosts: webserver
   become: yes
-  become_user: root
-
-  vars:
-    app_root: /var/www/recipe-book
-    repo_url: 'https://github.com/iurii1801/Auto_scripting.git'
-    repo_branch: 'lab05'
-    src_dir: /opt/auto_scripting
-
   tasks:
-    - name: Ensure git is installed
-      ansible.builtin.apt:
-        name: git
+    - name: Установить Apache
+      apt:
+        name: apache2
         state: present
         update_cache: yes
 
-    - name: Create source directory
-      ansible.builtin.file:
-        path: "{{ src_dir }}"
-        state: directory
-        mode: "0755"
+    - name: Установить PHP
+      apt:
+        name: php
+        state: present
 
-    - name: Clone Auto_scripting repository with PHP project
-      ansible.builtin.git:
-        repo: "{{ repo_url }}"
-        dest: "{{ src_dir }}"
-        version: "{{ repo_branch }}"
-        force: yes
-
-    - name: Copy recipe-book application to Apache docroot
-      ansible.builtin.copy:
-        src: "{{ src_dir }}/lab05/recipe-book/"
-        dest: "{{ app_root }}/"
+    - name: Копировать index.php
+      copy:
+        src: files/index.php
+        dest: /var/www/html/index.php
         owner: www-data
         group: www-data
-        mode: "0755"
-        remote_src: yes
-      notify: Reload Apache
+        mode: 0644
 
-    - name: Ensure correct permissions on app root
-      ansible.builtin.file:
-        path: "{{ app_root }}"
-        state: directory
-        owner: www-data
-        group: www-data
-        recurse: yes
-    
-    - name: Ensure Apache is installed
-      ansible.builtin.apt:
-       name: apache2
-       state: present
-       update_cache: yes
+    - name: Настроить Apache на порт 8080
+      lineinfile:
+        path: /etc/apache2/ports.conf
+        regexp: '^Listen '
+        line: 'Listen 8081'
 
-    - name: Ensure Apache is running
-      ansible.builtin.service:
-       name: apache2
-       state: started
-       enabled: yes
-       
-  handlers:
-  - name: Reload Apache
-    ansible.builtin.service:
-      name: apache2
-      state: restarted
+    - name: Перезапустить Apache (WSL workaround)
+      command: apache2ctl -k restart
 ```
 
 ![image](https://i.imgur.com/SZCSRHL.png)
@@ -1115,7 +1106,7 @@ lab05/pipelines/php_deploy_pipeline.groovy
 ```yaml
 ports:
   - "2224:22"
-  - "8088:80"
+  - "8081:80"
 ```
 
 Благодаря этому контейнер test-server становится доступен на хост-машине по адресу `http://localhost:8088`.
@@ -1142,7 +1133,7 @@ docker ps
 Далее необходимо открыть веб-браузер на хост-машине и перейти по адресу:
 
 ```
-http://localhost:8088
+http://localhost:8081
 ```
 
 Этот адрес соответствует контейнеру **test-server**, на котором Ansible:
