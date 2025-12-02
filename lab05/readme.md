@@ -78,7 +78,6 @@ docker logs jenkins-controller
 
 1. Выбрать вариант настройки плагинов (**Select plugins to install**).
 
-![image](https://i.imgur.com/P7goGv9.png)
 ![image](https://i.imgur.com/LDZ6Buq.png)
 
 2. После завершения мастера перейти в:
