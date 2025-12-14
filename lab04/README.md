@@ -233,7 +233,7 @@ docker compose up -d --build
 <img width="1310" height="591" alt="{553540C6-33F0-4E3A-B2D8-C335FF7F1030}" src="https://github.com/user-attachments/assets/b1000204-1f03-4d9f-8d6f-289edee735c7" />
 ```
 Настроил Job в Jenkins: New Item → Pipeline → Pipeline script from SCM → указал репозиторий, ветку `lab04` и `Script Path` = `lab04/recipe-book/Jenkinsfile`.
-
+```
 pipeline {
     agent any
     stages {
@@ -260,7 +260,7 @@ pipeline {
         }
     }
 }
-
+```
 ```
 ## Контрольные вопросы
 
