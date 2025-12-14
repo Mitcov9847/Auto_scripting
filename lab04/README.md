@@ -259,9 +259,8 @@ pipeline {
     }
 }
 
-```
 Настроил Job в Jenkins: New Item → Pipeline → Pipeline script from SCM → указал репозиторий, ветку `lab04` и `Script Path` = `lab04/recipe-book/Jenkinsfile`.
-
+```
 
 ## Контрольные вопросы
 
